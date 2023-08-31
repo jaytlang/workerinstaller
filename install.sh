@@ -44,7 +44,7 @@ been appropriately configured
 EOF
 read
 
-# A.5.6: check for certificates
+echo "A.5.6... (check for /etc/ssl/server.pem)"
 if [ ! -r /etc/ssl/server.pem ]; then
 	cat << EOF
 ===
@@ -78,13 +78,13 @@ cd workerd
 
 sed -i -E 's/memory[[:blank:]]+[0-9]+G/memory $ram/' etc/vm.conf
 
-copyfromfirst /etc/signify/bundled.pub etc/
-
 echo "copying VM images (this will take a while; expect password prompts)"
 
 mkdir images
 copyfromfirst /home/_workerd/base.qcow2 images/
 copyfromfirst /home/_workerd/vivado.qcow2 images/
+
+copyfromfirst /etc/signify/bundled.pub etc/
 
 make "$quiet"
 doas make install "$quiet"
@@ -104,9 +104,23 @@ make
 
 cat << EOF
 ===
-if all the unit tests passed, run the following commands:
+if all the unit tests passed, run the following commands to bring
+this machine online.
 
 doas rcctl enable workerd
+doas rcctl start workerd
+
+you can check whether this worked by heading over to your load balancer
+and running the following command:
+
+doas relayctl show hosts
+
+you should see the machine you just set up listed as 'up' within around
+ten seconds or so. if this doesn't work, check /var/log/daemon, or try
+setting verbosity on workerd:
+
+doas rcctl stop workerd
+doas rcctl set workerd flags "-v"
 doas rcctl start workerd
 
 thanks!
