@@ -87,7 +87,7 @@ doas make reinstall
 
 cat << EOF
 ===
-workerd successfully installed. running the unit tests now.
+workerd successfully installed. running sanity check now.
 you should expect to see lots of output below - if you see
 "FAILED" anywhere, something is broken and you should talk to 
 jay/joe
@@ -96,7 +96,8 @@ EOF
 
 cd unit
 sed -i -E "s/server_hostname[[:blank:]]*=.*/server_hostname = \"$bundleserver\"/" bundle/conf.py
-make
+make test_vm_helloworld
+make clean_all
 
 doas rcctl enable workerd
 doas rcctl start workerd
