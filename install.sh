@@ -72,10 +72,10 @@ cd workerd
 sed -i -E "s/memory[[:blank:]]+[0-9]+G/memory $ram/" etc/vm.conf
 
 echo "copying VM images (this will take a while)"
+mkdir -p images
 
-mkdir images
-copyfromfirst /home/_workerd/base.qcow2 images/
-copyfromfirst /home/_workerd/vivado.qcow2 images/
+[ -r images/base.qcow2 ] || copyfromfirst /home/_workerd/base.qcow2 images
+[ -r images/vivado.qcow2 ] || copyfromfirst /home/_workerd/vivado.qcow2 images
 
 copyfromfirst /etc/signify/bundled.pub etc/
 
@@ -86,7 +86,7 @@ cat << EOF
 ===
 workerd successfully installed. running sanity check now.
 you should expect to see lots of output below - if you see
-"FAILED" anywhere, something is broken and you should talk to 
+a unit test failure, something is broken and you should talk to 
 jay/joe
 ===
 EOF
