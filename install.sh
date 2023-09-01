@@ -68,6 +68,7 @@ echo "A.5.7... (workerd)"
 
 git clone --recursive https://github.com/jaytlang/workerd
 cd workerd
+doas make uninstall
 
 sed -i -E "s/memory[[:blank:]]+[0-9]+G/memory $ram/" etc/vm.conf
 
@@ -80,7 +81,7 @@ mkdir -p images
 copyfromfirst /etc/signify/bundled.pub etc/
 
 make
-doas make reinstall
+doas make install
 
 cat << EOF
 ===
