@@ -75,6 +75,8 @@ sed -i -E "s/memory[[:blank:]]+[0-9]+G/memory $ram/" etc/vm.conf
 echo "copying VM images (this will take a while)"
 mkdir -p images
 
+rm -f ~/.ssh/known_hosts
+
 [ -r images/base.qcow2 ] || copyfromfirst /home/_workerd/base.qcow2 images
 [ -r images/vivado.qcow2 ] || copyfromfirst /home/_workerd/vivado.qcow2 images
 
