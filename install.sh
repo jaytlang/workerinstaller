@@ -9,6 +9,7 @@ user=fpga
 first=eecs-digital-19.mit.edu
 ram=6G
 bundleserver=fpga3.mit.edu
+pass=CHANGEME
 
 # DONT CHANGE ANYMORE
 
@@ -19,8 +20,10 @@ copyfromfirst() {
 	fi	
 
 	[ -n "$2" ] || 2="."
-	scp $user@$first:$1 $2
+	sshpass -p $pass scp $user@$first:$1 $2
 }
+
+doas pkg_add sshpass
 
 cat << EOF
 ===
@@ -97,6 +100,8 @@ make
 
 doas rcctl enable workerd
 doas rcctl start workerd
+
+doas pkg_delete sshpass
 
 cat << EOF
 ===
