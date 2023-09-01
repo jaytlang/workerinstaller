@@ -72,7 +72,7 @@ echo "A.5.7... (workerd)"
 git clone --recursive https://github.com/jaytlang/workerd
 cd workerd
 
-sed -i -E 's/memory[[:blank:]]+[0-9]+G/memory $ram/' etc/vm.conf
+sed -i -E "s/memory[[:blank:]]+[0-9]+G/memory $ram/" etc/vm.conf
 
 echo "copying VM images (this will take a while)"
 
@@ -82,8 +82,8 @@ copyfromfirst /home/_workerd/vivado.qcow2 images/
 
 copyfromfirst /etc/signify/bundled.pub etc/
 
-make "$quiet"
-doas make install "$quiet"
+make
+doas make install
 
 cat << EOF
 ===
