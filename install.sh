@@ -12,13 +12,6 @@ bundleserver=fpga3.mit.edu
 
 # DONT CHANGE ANYMORE
 
-quiet="/dev/null 2>&1"
-
-quietclone() {
-	[ "$#" -ge 1 ] || { echo "quietclone requires arguments"; return 1; }
-	git clone "$@" "$quiet"
-}
-
 copyfromfirst() {
 	if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
 		echo "usage: copyfromfirst source [dest]"
@@ -62,18 +55,18 @@ cd
 [ -d "pfinator2000" ] || git clone https://github.com/jaytlang/pfinator2000
 cd pfinator2000; echo "workerd" | ./install.sh; cd ..
 
-cat /etc/sysctl.conf | grep 'net.inet.ip.forwarding' "$quiet"
-[ $? -ne 0 ] && doas sh -c "echo 'net.inet.ip.forwarding=1' >> /etc/sysctl.conf
+cat /etc/sysctl.conf | grep 'net.inet.ip.forwarding'
+[ $? -ne 0 ] && { echo "updating /etc/sysctl.conf"; doas sh -c "echo 'net.inet.ip.forwarding=1' >> /etc/sysctl.conf"; }
 
-echo "A.5.2... (login.conf/vmd)
+echo "A.5.2... (login.conf/vmd)"
 
-sed -i '/vmd/{n;N;s|16384M|1T|;}' /etc/login.conf
+doas sed -i '/vmd/{n;N;s|16384M|1T|;}' /etc/login.conf
 doas rcctl enable vmd "$quiet"
 doas rcctl start vmd "$quiet"
 
 echo "A.5.7... (workerd)"
 
-quietclone --recursive https://github.com/jaytlang/workerd
+git clone --recursive https://github.com/jaytlang/workerd
 cd workerd
 
 sed -i -E 's/memory[[:blank:]]+[0-9]+G/memory $ram/' etc/vm.conf
