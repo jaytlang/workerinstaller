@@ -74,7 +74,7 @@ cd workerd
 
 sed -i -E 's/memory[[:blank:]]+[0-9]+G/memory $ram/' etc/vm.conf
 
-echo "copying VM images (this will take a while; expect password prompts)"
+echo "copying VM images (this will take a while)"
 
 mkdir images
 copyfromfirst /home/_workerd/base.qcow2 images/
