@@ -69,12 +69,12 @@ echo "A.5.7... (workerd)"
 rm -rf workerd
 git clone --recursive https://github.com/jaytlang/workerd
 cd workerd
+mkdir -p images
 doas make uninstall
 
 sed -i -E "s/memory[[:blank:]]+[0-9]+G/memory $ram/" etc/vm.conf
 
 echo "copying VM images (this will take a while)"
-mkdir -p images
 
 rm -f ~/.ssh/known_hosts
 
