@@ -83,7 +83,7 @@ copyfromfirst /home/_workerd/vivado.qcow2 images/
 copyfromfirst /etc/signify/bundled.pub etc/
 
 make
-doas make install
+doas make reinstall
 
 cat << EOF
 ===
