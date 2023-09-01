@@ -66,8 +66,7 @@ doas rcctl start vmd "$quiet"
 
 echo "A.5.7... (workerd)"
 
-rm -rf workerd
-git clone --recursive https://github.com/jaytlang/workerd
+[ -d workerd ] || git clone --recursive https://github.com/jaytlang/workerd
 cd workerd
 doas make uninstall
 
