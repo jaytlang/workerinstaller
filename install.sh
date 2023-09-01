@@ -102,15 +102,12 @@ cd unit
 sed -i -E "s/server_hostname[[:blank:]]*=.*/server_hostname = \"$bundleserver\"/" bundle/conf.py
 make
 
-cat << EOF
-===
-if all the unit tests passed, run the following commands to bring
-this machine online.
-
 doas rcctl enable workerd
 doas rcctl start workerd
 
-you can check whether this worked by heading over to your load balancer
+cat << EOF
+===
+you can check whether things worked by heading over to your load balancer
 and running the following command:
 
 doas relayctl show hosts
