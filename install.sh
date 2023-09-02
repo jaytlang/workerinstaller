@@ -101,6 +101,7 @@ make test_vm_helloworld
 make clean_all
 
 doas rcctl enable workerd
+doas rcctl set workerd flags "-v"
 doas rcctl start workerd
 
 cat << EOF
@@ -112,7 +113,7 @@ doas relayctl show hosts
 
 you should see the machine you just set up listed as 'up' within around
 ten seconds or so. if this doesn't work, check /var/log/daemon, or try
-setting verbosity on workerd:
+setting verbosity on workerd if you ever turned it off:
 
 doas rcctl stop workerd
 doas rcctl set workerd flags "-v"
